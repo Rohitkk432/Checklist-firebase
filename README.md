@@ -3,6 +3,8 @@ Checklist creator using firebase as backend.
 
 Deployed site V1 - https://checklist-firebase-25d04.web.app/
 
+(( Disclaimer -- Mobile view yet to be implemented ))
+
 ## About
 Checklist creator for daily tasks, todos, shopping list, tours, etc.
 
