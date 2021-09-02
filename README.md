@@ -13,11 +13,6 @@ Checklist creator for daily tasks, todos, shopping list, tours, etc.
 - [Installation 🐣](#installation)
 - [Contribution Guidelines ✒](#contribution-guidelines)
 - [How to use ? 📖](#how-to-use)
-- [Current Implementations 👨‍💻](#current-implementations)
-- [Pending Implementations ](#pending-implementations)
-- [Future Implementations 💻](#future-implementations)
-- [Things Learned ☕](#things-learned)
-- [Things Played around with ☕](#things-played-around-with)
 - [SnapShots](#snapshots)
 
 ## Browser Support
