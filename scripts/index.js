@@ -147,7 +147,7 @@ const setList=(data)=>{
         removelisteners(removebtn);
         updatelisteners(updatebtn);
     } else {
-        taskslist.innerHTML = '<h5>Sorrry</h5>';
+        taskslist.innerHTML = '<div class="checklistbox" style="justify-content:center" >Sorry No task to display</div>';
     }
 }
 //adding listeners to all remove btns
@@ -184,8 +184,8 @@ const updateform = (e)=>{
     //layout for update
     const html=`
         <div class="checklistbox-add">
-            <input placeholder="task/item" value=${prevtask} class="inp-task inp" type="text" />
-            <input placeholder="todo" value=${prevtodo} class="inp-todo inp" type="text" />
+            <input placeholder="task/item" value='${prevtask}' class="inp-task inp" type="text" />
+            <input placeholder="todo" value='${prevtodo}' class="inp-todo inp" type="text" />
             <div class="actions-add">
                 <input type="checkbox" name="tick" class="tick-add" id="" ${(prevchecked)? 'checked':''}/>
                 <button class="remove-add"><i class="fas fa-times"></i></button>
@@ -209,10 +209,14 @@ const updateform = (e)=>{
         const uptask= editlistbox.querySelector(".inp-task").value;
         const uptodo= editlistbox.querySelector(".inp-todo").value;
         const upchecked = editlistbox.querySelector(".tick-add").checked;
-        db.collection('tasks').doc(id).update({
-            task:uptask,
-            todo:uptodo,
-            checked:upchecked
-        });
+        if((uptask)&&((uptask!==prevtask)||(upchecked!==prevchecked)||(uptodo!==prevtodo))){
+            db.collection('tasks').doc(id).update({
+                task:uptask,
+                todo:uptodo,
+                checked:upchecked
+            });
+        }else{
+            getList();
+        }
     })
 }
