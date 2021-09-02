@@ -156,6 +156,18 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+
+        input[type="checkbox"] {
+            pointer-events: none;
+        }
+    }
+    .actions-add {
+        width: 7rem;
+        margin-right: 1rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
     .tick,
     .tick-add {
@@ -204,7 +216,8 @@
     justify-content: flex-start;
     align-items: center;
 }
-.submitadd {
+.submitadd,
+.save-btn {
     color: white;
     background: rgb(12, 148, 0);
     margin: 1rem;

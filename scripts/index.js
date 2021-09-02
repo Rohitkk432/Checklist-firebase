@@ -2,6 +2,7 @@ var provider = new firebase.auth.GoogleAuthProvider();
 
 var user;
 
+//login func
 const loginfunc = ()=>{
     firebase.auth()
     .signInWithPopup(provider)
@@ -34,7 +35,7 @@ const loginfunc = ()=>{
         // ...
     });
 }
-
+//signout
 const signoutfunc = ()=>{
     firebase.auth().signOut().then(() => {
         // Sign-out successful.
@@ -61,7 +62,7 @@ logoutbtn.addEventListener('click',(e)=>{
     signoutfunc();
 })
 
-
+// --------------------------------------------------------------
 
 //adding new listitem
 
@@ -72,40 +73,43 @@ addbtn.addEventListener('click',(e)=>{
     e.preventDefault();
     const html=`
         <div class="checklistbox-add">
-            <input class="inp-task inp" type="text" />
-            <input class="inp-todo inp" type="text" />
-            <div class="actions">
+            <input placeholder="task/item" class="inp-task inp" type="text" />
+            <input placeholder="todo" class="inp-todo inp" type="text" />
+            <div class="actions-add">
                 <input type="checkbox" name="tick" class="tick-add" id="" />
-                <button class="remove-add">X</button>
+                <button class="remove-add"><i class="fas fa-times"></i></button>
             </div>
         </div>
         <button class='submitadd'><i class="fas fa-plus"></i></button>
     `;
     addlist.innerHTML=html;
 
-    const submitadd = document.querySelector('.submitadd');
+    const submitadd = addlist.querySelector('.submitadd');
     submitadd.addEventListener('click',(e)=>{
         e.preventDefault();
-        const task= document.querySelector(".inp-task").value;
-        const todo= document.querySelector(".inp-todo").value;
-        const checked = document.querySelector(".tick-add").checked;
-        db.collection('tasks').add({
-            userid:user.uid,
-            task:task,
-            todo:todo,
-            checked:checked,
-            timestamp: new Date().getTime()
-        });
+        const task= addlist.querySelector(".inp-task").value;
+        const todo= addlist.querySelector(".inp-todo").value;
+        const checked = addlist.querySelector(".tick-add").checked;
+        if(task){
+            db.collection('tasks').add({
+                userid:user.uid,
+                task:task,
+                todo:todo,
+                checked:checked,
+                timestamp: new Date().getTime()
+            });
+        }
         addlist.innerHTML=``;
     })
     
-    const removebtn = document.querySelector('.remove-add');
+    const removebtn = addlist.querySelector('.remove-add');
     removebtn.addEventListener('click',(e)=>{
         e.preventDefault();
         addlist.innerHTML=``;
     })
 });
 
+//fetching and displaying checklists
 const taskslist = document.querySelector('.list');
 
 const getList=()=>{
@@ -126,8 +130,8 @@ const setList=(data)=>{
                         <div class="task">${taskdata.task}</div>
                         <div class="todo">${taskdata.todo}</div>
                         <div class="actions">
-                            <input type="checkbox" name="tick" class="tick" id="" ${(taskdata.checked)? 'checked':''} />
-                            <button class="remove">X</button>
+                            <input type="checkbox" name="tick" class="tick" id="" ${(taskdata.checked)? 'checked':''}/>
+                            <button class="remove"><i class="fas fa-times"></i></button>
                         </div>
                     </div>
                     <button class='updatebtn'><i class="fas fa-pen"></i></button>
@@ -138,8 +142,10 @@ const setList=(data)=>{
         taskslist.innerHTML = html;
 
         const removebtn = document.querySelectorAll('.remove');
+        const updatebtn = document.querySelectorAll('.updatebtn');
 
         removelisteners(removebtn);
+        updatelisteners(updatebtn);
     } else {
         taskslist.innerHTML = '<h5>Sorrry</h5>';
     }
@@ -150,9 +156,63 @@ function removelisteners(btns){
         btn.addEventListener('click',deletetaskdoc);
     })
 }
+//adding listeners to all update btns
+function updatelisteners(btns){
+    btns.forEach(btn=>{
+        btn.addEventListener('click',(e)=>updateform(e));
+    })
+}
 //delete from db func
 const deletetaskdoc = (e)=>{
     e.preventDefault();
     const id = e.target.closest(".checklistbox").dataset.id ; 
     db.collection('tasks').doc(id).delete();
+}
+
+//update 
+const updateform = (e)=>{
+    e.preventDefault();
+    //previous values
+
+    const id = e.target.closest(".listbox").querySelector(".checklistbox").dataset.id;
+    const editlistbox = e.target.closest(".listbox");
+    const editlist = e.target.closest(".listbox").querySelector(".checklistbox");
+    const prevtask = editlist.querySelector('.task').textContent;
+    const prevtodo = editlist.querySelector('.todo').textContent;
+    const prevchecked = editlist.querySelector('.tick').checked;
+    
+    //layout for update
+    const html=`
+        <div class="checklistbox-add">
+            <input placeholder="task/item" value=${prevtask} class="inp-task inp" type="text" />
+            <input placeholder="todo" value=${prevtodo} class="inp-todo inp" type="text" />
+            <div class="actions-add">
+                <input type="checkbox" name="tick" class="tick-add" id="" ${(prevchecked)? 'checked':''}/>
+                <button class="remove-add"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <button class='save-btn'><i class="far fa-save"></i></button>
+    `;
+
+    editlistbox.innerHTML=html;
+
+    const removebtn = editlistbox.querySelector('.remove-add');
+    removebtn.addEventListener('click',(e)=>{
+        e.preventDefault();
+        editlistbox.innerHTML=``;
+        getList();
+    })
+
+    //edit func
+    editlistbox.querySelector('.save-btn').addEventListener('click',(e)=>{
+        e.preventDefault();
+        const uptask= editlistbox.querySelector(".inp-task").value;
+        const uptodo= editlistbox.querySelector(".inp-todo").value;
+        const upchecked = editlistbox.querySelector(".tick-add").checked;
+        db.collection('tasks').doc(id).update({
+            task:uptask,
+            todo:uptodo,
+            checked:upchecked
+        });
+    })
 }
