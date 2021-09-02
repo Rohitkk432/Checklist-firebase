@@ -310,7 +310,8 @@
           box-shadow: 1px 1px 1px #383838;
 }
 
-.add-list {
+.add-list,
+.listbox {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -327,19 +328,37 @@
 }
 
 .submitadd {
-  margin: 1rem;
-  width: 5rem;
-  height: 2.5rem;
-  border-radius: 4px;
-  border: 0;
-  outline: 0;
   color: white;
   background: #0c9400;
+  margin: 1rem;
+  font-size: large;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 0;
+  outline: 0;
   -webkit-box-shadow: 1px 1px 4px #383838;
           box-shadow: 1px 1px 4px #383838;
 }
 
 .submitadd:hover {
+  -webkit-box-shadow: 1px 1px 1px #383838;
+          box-shadow: 1px 1px 1px #383838;
+}
+
+.updatebtn {
+  margin: 1rem;
+  font-size: large;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 0;
+  outline: 0;
+  -webkit-box-shadow: 1px 1px 4px #383838;
+          box-shadow: 1px 1px 4px #383838;
+}
+
+.updatebtn:hover {
   -webkit-box-shadow: 1px 1px 1px #383838;
           box-shadow: 1px 1px 1px #383838;
 }
