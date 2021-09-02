@@ -113,7 +113,7 @@ addbtn.addEventListener('click',(e)=>{
 const taskslist = document.querySelector('.list');
 
 const getList=()=>{
-    db.collection('tasks').where("userid","==",user.id).orderBy("timestamp").onSnapshot(snapshot => {
+    db.collection('tasks').where("userid","==",user.uid).orderBy("timestamp").onSnapshot(snapshot => {
         // console.log(snapshot.docs);
         setList(snapshot.docs);
     }, err => console.log(err.message));
